@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Flag</title>
+    <style>
+          :root {
+            --flag-width: 800px;
+            --flag-height: calc(10 / 19 * var(--flag-width));
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .flag {
+            width: var(--flag-width);
+            height: var(--flag-height);
+            position: relative;
+            border: 2px solid black;
+            background-color: white;
+        }
+        .stripe {
+            width: 100%;
+            height: calc(100% / 13);
+        }
+        .stripe:nth-child(odd) { /* First stripe is red */
+            background-color: white;
+        }
+        .stripe:nth-child(even) {
+            background-color: red;
+        }
+        .union {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 52%; 
+            background-color: navy;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 5px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .star {
+            color: white;
+            font-size: 32px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="flag">
+        <!-- Stripes -->
+        <script>
+            const flag = document.querySelector('.flag');
+            for (let i = 0; i < 13; i++) {
+                const stripe = document.createElement('div');
+                stripe.classList.add('stripe');
+                flag.appendChild(stripe);
+            }
+
+            // Create the union
+            const union = document.createElement('div');
+            union.classList.add('union');
+            flag.appendChild(union);
+
+            // Correct star rows: Start with 6, alternate between 6 and 5
+            const starPattern = [6, 5, 6, 5, 6]; 
+            
+            starPattern.forEach((numStars) => {
+                const row = document.createElement('div');
+                row.classList.add('row');
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    star.innerHTML = '★';
+                    row.appendChild(star);
+                }
+                union.appendChild(row);
+            });
+        </script>
+    </div>
+</body>
+</html>
+
+
+
+<!--
+According to Wikipedia, the US flag has a proportion of 10:19 (width:height). 
+The union (blue rectangle) is 40% of the width and 50% of the height of the flag. 
+The stars are arranged in 9 rows of 6 stars each, 
+with the stars in each row offset by 1/2 star from the stars in the adjacent rows. 
+The stars are 5-pointed and have a diameter of 3/5 of the height of the union. 
+The stripes are 13 in number, alternating between red and white, and are of equal width.
+6
+5
+6
+5
+6
+-->
