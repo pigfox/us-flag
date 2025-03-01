@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Flag</title>
+    <style>
+        :root {
+            --flag-width: 100%;
+            --flag-height: calc(10 / 19 * 100vw);
+            --stripe-height: calc(var(--flag-height) / 13);
+            --union-width: 40%;
+            --union-height: calc(7 / 13 * var(--flag-height));
+            --star-size: calc(var(--stripe-height) * 1.2);
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .flag {
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            width: var(--flag-width);
+            height: var(--flag-height);
+
+            border: 2px solid black;
+            display: flex;
+            flex-direction: column;
+        }
+        .stripe {
+            width: 100%;
+            height: var(--stripe-height);
+        }
+        .stripe:nth-child(odd) {
+            background-color: white;
+        }
+        .stripe:nth-child(even) {
+            background-color: red;
+        }
+        .union {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            width: var(--union-width);
+            height: var(--union-height);
+            background-color: navy;
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .star-box{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            width: 100%;
+            background-color: orange;
+            margin: 0;
+            padding: 0;
+        }
+        .star-row{
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+        .star {
+            color: white;
+            font-size: var(--star-size);
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="flag">
+        <script>
+            const flag = document.querySelector('.flag');
+
+            // Create stripes
+            for (let i = 0; i < 13; i++) {
+                const stripe = document.createElement('div');
+                stripe.classList.add('stripe');
+                flag.appendChild(stripe);
+            }
+
+            // Create the union (blue rectangle)
+            const union = document.createElement('div');
+            union.classList.add('union');
+            flag.appendChild(union);
+            let unionHeight = union.offsetHeight;
+            let unionWidth = union.offsetWidth;
+
+            const starBox = document.createElement('div');
+            starBox.classList.add('star-box');
+            union.appendChild(starBox);
+
+            // Correct star arrangement
+            const starPattern = [6, 5, 6, 5, 6, 5, 6, 5, 6]; 
+            let rowHeight = unionHeight / starPattern.length - 5;
+            console.log(rowHeight + "px");
+
+            starPattern.forEach((numStars, rowIndex) => {
+                const row = document.createElement('div');
+                row.classList.add('star-row');
+                row.style.top = `${rowIndex * rowHeight}px`;
+                row.style.height = rowHeight + "px";
+                let basePadding = unionWidth / numStars;
+
+                if(row.style.justifyContent = rowIndex % 2 === 0){            
+                    row.style.zIndex = 3;
+                } else {
+                    row.style.zIndex = 4;
+                }
+      
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    star.innerHTML = '★';
+                    row.appendChild(star);
+                    let starWidth = 0;
+                    requestAnimationFrame(() => {
+                        let rect = star.getBoundingClientRect();
+                        starWidth = rect.width;
+                        console.log("starWidth", starWidth + "px");
+                    });
+
+                    if(row.style.justifyContent = rowIndex % 2 === 0){            
+                        star.style.paddingLeft = basePadding / 10 + "px";  
+                        star.style.paddingRight = basePadding / 10 + "px";   
+                    } else {
+                        star.style.paddingLeft = basePadding / 15 + "px";  
+                        star.style.paddingRight = basePadding / 15 + "px"; 
+                    }                    
+                        
+                    //row.appendChild(star);
+                }
+                starBox.appendChild(row);
+            });
+        </script>
+    </div>
+</body>
+</html>
